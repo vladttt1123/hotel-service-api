@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "roomNumber": {
+      "type": "integer"
+    },
+    "roomType": {
+      "type": "string",
+      "enum": [
+        "SINGLE",
+        "DOUBLE",
+        "SUITE"
+      ]
+    },
+    "available": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "roomNumber",
+    "roomType",
+    "available"
+  ],
+  "additionalProperties": false
+}

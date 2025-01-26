@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # MySQL Service
+  mysql:
+    image: mysql:8-oracle
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dummypassword
+      MYSQL_USER: admin-user
+      MYSQL_PASSWORD: dummypassword
+      MYSQL_DATABASE: hotel-reservation-database
+    ports:
+      - "3306:3306"
+    networks:
+      - hotel-reservation-net
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  # Spring API Service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hotel-reservation-database
+      SPRING_DATASOURCE_USERNAME: admin-user
+      SPRING_DATASOURCE_PASSWORD: dummypassword
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - hotel-reservation-net
+
+# Define networks for inter-service communication
+networks:
+  hotel-reservation-net:
+    driver: bridge
+
+# Define volumes to persist data
+volumes:
+  mysql-data:
